@@ -1,0 +1,37 @@
+
+
+
+1 - select t.tarefa_id, t.tarefa_nome, t.descricao,
+    (
+    select nome from usuarios WHERE id = t.tarefa_responsavel
+    ) as responsavel_nome,
+    (
+        select email from usuarios where id = t.tarefa_responsavel
+    ) as responsavel_email,
+    (
+        select nome from usuarios where id = t.tarefa_solicitado
+    ) as solicitado_nome,
+    (
+       select email from usuario where id = t.tarefa_solicitado
+    ) as solicitado_email
+from tarefas t where t.statusFK = 1;
+
+2 - select l.* from tarefas t join locais l on t.local_id = l.local_id;
+3- select * from usuarios where id not in (select usuario_id from tarefa_responsaveis);
+4 - select e.evento_id, e.evento_nome, l.local_id, l.nome as local_nome, t.tarefa_id, t.tarefa_nome
+from eventos e
+join locais l ON e.localFK = l.local_id
+join tarefas t ON t.localFK = l.local_id
+where e.data_evento > curdate() and t.statusFK != 3;
+5- select l.nome as local_nome, count(t.tarefa_id) AS quantidade_tarefas
+from locais l
+join tarefas t on l.local_id = t.localFK
+group by l.local_id, l.nome;
+6 - select l.nome as local_nome,
+    (select count(tarefa_id) from tarefas where localFK = l.local_id) as quantidade_tarefas from locais l;
+7 - select u.nome as usuario_nome, count(t.tarefa_id) as quantidade_tarefas from usuarios u join tarefas t on u.id = t.tarefa_solicitado
+group by u.nome;
+8 - select u.nome AS usuario_nome, count(t.tarefa_id) AS quantidade_tarefasfrom usuarios u join tarefas t on u.id = t.tarefa_solicitado
+    join status s on t.statusFK = s.id where s.status <> 'Concluída' group by u.nome;
+9 - select month(t.comeco_data) as mes, l.local_nome, count(t.tarefa_id) AS total_tarefas from tarefas t join locais l ON t.localFK = l.id group by mes, l.local_nome;
+
