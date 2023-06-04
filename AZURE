@@ -1,0 +1,4 @@
+Link pro cloud console: mysql -h hogwartssomativa.mysql.database.azure.com -u alanisi -p '--ssl-ca=DigiCertGlobalRootCA.crt.pem'
+Senha : Nick1234
+
+**não sei se deu certo mas tentei**
